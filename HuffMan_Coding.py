@@ -1,18 +1,28 @@
+#Для построения дерева понадобятся элементы, из которых мы будем его собирать 
+class HuffNode(object):  
+    def __init__(self , left = None , right = None , root = None):
+        self.left= left
+        self.right= right 
+        self.root = root
+    def children(self):
+        return(self.left, self.right)
+
+    
 #Получаем на вход текстовый файл. Пока не знаем для кодирования или декодирования
-input_text= "jfhfyehfbskwurbrbdhdhddyweygb" 
+try:
+    txt = input("Введите полный путь к файлу, с которым хотите работать: ")
+    file = open(txt,encoding='utf-8',mode= "r")
+    input_text= file.read()
+except FileNotFoundError:
+    print("Ошибка: Файл не найден")
 #Создаём массив частотности встречи каждого символа
 frequency = {}
 #Заполняем этот массив 
-for i in input_text: 
-    if i in frequency:
-        frequency[i]+=1
+for ch in input_text: 
+    if ch in frequency:
+        frequency[ch]+=1
     else: 
-        frequency[i]=1   
-
-#Проверяем вывод
-print(frequency)
-
-
+        frequency[ch]=1   
 ''' Нам нужно отсортировать по возрастанию частотности
 Варианты из stack overflow
 dict(sorted(x.items(), key=lambda item: item[1]))
@@ -20,8 +30,10 @@ dict(sorted(x.items(), key=lambda item: item[1]))
 for i in sorted(frequency, key=frequency.get, reverse=True):
     print(i, frequency[i])'''
 
-
 #Отсортируем по частотности от самого редкого к самому частому 
-frequency=dict(sorted(frequency.items(), key=lambda item: item[1]))
-
+freq=dict(sorted(frequency.items(), key=lambda item: item[1]))
+print(freq)
+#Для удобства работы преобразуем в список кортежей 
+frequency= [(fr,ch) for ch,fr in freq.items()]
 print(frequency)
+
